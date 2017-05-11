@@ -1,0 +1,596 @@
+//Mario D. Mondelice
+//November 12, 2016
+//Geometry Calculator
+
+#include<iostream>
+#include<iomanip>
+#include<cmath>
+#include<cstdlib>
+using namespace std;
+
+//Prototypes
+char MENU_OPTIONS(char selection); //Menu Options
+char AREA_OPTIONS(char choice);
+char TRIANGLE_OPTIONS(char choice);
+char VOLUME_OPTIONS(char choice);
+
+//For Area
+double area_RECTANGLE(double l, double w); //Area of a Rectangle
+double area_TRIANGLE(double b, double h); //Area of a Triangle
+double area_SQUARE(double s); //Area of a Square
+double area_CIRCLE(double r); //Area of a Circle
+
+//For Volume
+int volume_RECTANGLE(int l, int w, int h); //Volume of a Rectangle
+int volume_CUBE(int s); //Volume of a Cube
+
+//For Circumference
+double circum_CIRCLE(double r); //Circumference of a Circle
+
+//For Polygon
+int sumofAngles(int s); //Finds the measure of each angle of a shape.
+
+//For Triangle
+int find_THIRD_ANGLE(int a, int b); //Finds the third angle of a triangle.
+double hypotenuse(double a, double b); //Pythagorean Theorum
+
+//For Display
+void copyright();
+void display_MENUOPTIONS();
+void display_AREAOPTIONS();
+void display_TRIANGLEOPS();
+void display_VOLUME();
+
+int main()
+{
+	//declaration of variables
+	char option = ' '; //For Menu Option
+	char areaOptions = ' '; //For calling Area menu
+	char triangleOptions = ' '; //For calling Triangle menu
+	char volumeOptions = ' '; //For calling Volume Menu
+	int num = 0;
+	int num2 = 0;
+	int num3 = 0;
+	int totalNumber = 0;
+	double m = 0;
+	double n = 0;
+	double total = 0;
+
+	//Calls the menu options
+	copyright();
+	display_MENUOPTIONS();
+	
+	cout << endl << endl << "Go ahead and make your selection: ";
+	cin >> option;
+
+	if (option != 'A' && option != 'C' && option != 'P' && option != 'T' && option != 'V')
+	{
+		option = MENU_OPTIONS(option);
+	}
+
+	switch (option)
+	{
+
+	case 'A': //Area
+	{
+		display_AREAOPTIONS();
+
+		cout << endl << endl << "Go ahead and make your selection: ";
+		cin >> areaOptions;
+
+		if (areaOptions != 'T' && areaOptions != 'S' && areaOptions != 'R' && areaOptions != 'C')
+		{
+			areaOptions = AREA_OPTIONS(option);
+		}
+
+		switch (areaOptions)
+		{
+
+		case 'T': //Area of Triangle
+		{
+			do
+			{
+				//Gets the base of the triangle.
+				cout << endl << "What is the base of the triangle?: ";
+				cin >> m;
+
+			} while (m <= 0);
+
+			do
+			{
+				//Gets the height of the triangle.
+				cout << endl << "What is the height of the triangle?: ";
+				cin >> n;
+			} while (n <= 0);
+
+			total = area_TRIANGLE(m, n); //Calculates area of the Triangle.
+
+			//Outputs results
+			cout << endl << "The base of the triangle is: " << m;
+			cout << endl << "The height of the triangle is: " << n;
+			cout << endl << "The area of the triangle is: " << total;
+		}
+		break;
+
+
+		case 'S': //Area of Square
+		{
+			do
+			{
+				//Gets the length of one side.
+				cout << endl << "What is the length of the one side of the square?: ";
+				cin >> m;
+
+			} while (m <= 0);
+
+			total = area_SQUARE(m); //calculates the area of the square.
+
+			//Outputs results
+			cout << endl << "The length of the side you entered is: " << m;
+			cout << endl << "The area of the square is: " << total;
+		}
+		break;
+
+		case 'R': //Area of Rectangle
+		{
+			do
+			{
+				//Gets the length of the rectangle.
+				cout << endl << "What is the length of the rectangle?: ";
+				cin >> m;
+
+			} while (m <= 0);
+
+			do
+			{
+				//Gets the width of the rectangle.
+				cout << endl << "What is the width of the rectangle?: ";
+				cin >> n;
+
+			} while (n <= 0);
+
+			total = area_RECTANGLE(m, n); //Calculates the area of the rectangle.
+
+			//Output results
+			cout << endl << "The length of the rectangle is: " << m;
+			cout << endl << "The width of the rectangle is: " << n;
+			cout << endl << "The area of the rectange is: " << total;
+		}
+		break;
+
+		default: //Area of Circle
+		{
+			do
+			{
+				//Gets the radius of the circle.
+				cout << endl << "Please enter the radius of the circle: ";
+				cin >> m;
+			} while (m <= 0);
+
+			total = area_CIRCLE(m); //Calculates area of circle.
+
+			cout << fixed << setprecision(0);
+
+			//Outputs results.
+			cout << endl << "The radius of the circle is: " << m;
+			cout << endl << "The area of the cirlce is: " << total;
+		}
+		break;
+		}
+
+	}
+	break;
+
+	case 'C': //Circumference
+	{
+		do
+		{
+			cout << endl << "What is the radius of the circle: ";
+			cin >> num; //User enters radius.
+
+		} while (num <= 0);
+		
+
+		//Calculation
+		total = circum_CIRCLE(num);
+
+		cout << fixed << setprecision(0);
+
+		//Outputs results.
+		cout << endl << "Your radius is: " << num;
+		cout << endl << "The circumference is: " << total;
+	}
+	break;
+
+	case 'P': //Polygon 
+	{
+		do
+		{
+			//Gets the amount of sides on the shape.
+			cout << endl << "How many sides does the shape have?: ";
+			cin >> num;
+
+		} while (num < 3);
+
+		totalNumber = sumofAngles(num); //Calculates measuresments of angles.
+
+		//Output results
+		cout << endl << "The amount of sides this shape has is: " << num;
+		cout << endl << "The angles of the shape add up to: " << totalNumber;
+	}
+	break;
+
+	case 'T': //Triangle
+	{
+		display_TRIANGLEOPS();
+
+		cout << endl << "Go ahead a make a selection: ";
+		cin >> option;
+		option = toupper(option);
+
+		if (option != 'P' && option != 'M')
+		{
+			triangleOptions = TRIANGLE_OPTIONS(option);
+
+		}
+		switch (triangleOptions)
+		{
+
+		case 'P': //Pythagorean Theorum
+		{
+			do
+			{
+				//Get the length of the first side.
+				cout << endl << "What is the length of the first side?: ";
+				cin >> m;
+
+			} while (m <= 0);
+
+			do
+			{
+				//Get the length of the second side.
+				cout << endl << "What is the length of the second side?: ";
+				cin >> n;
+
+			} while (n <= 0);
+
+			total = hypotenuse(m, n);//Calculates hypotenuse.
+
+			cout << fixed << setprecision(0); //Rounds to the nearest whole number
+
+			//Outputs results
+			cout << endl << "The length of Side A: " << m;
+			cout << endl << "The length of Side B: " << n;
+			cout << endl << endl << "The length of the hypoteneuse is: " << total;
+
+		}
+		break;
+
+		default://Missing Angle
+		{
+			do
+			{
+				//Get the first angle
+				cout << endl << "What's the measurement of the first angle?: ";
+				cin >> num;
+
+			} while (num <= 0);
+
+			do
+			{
+				//Get the second angle.
+				cout << endl << "What's the measurement of the second angle?: ";
+				cin >> num2;
+			} while (num2 <= 0);
+
+			total = find_THIRD_ANGLE(num, num2); //Will find the third angle.
+
+			//Outputs results.
+			cout << endl << "First Angle: " << num;
+			cout << endl << "Second Angle: " << num2;
+			cout << endl << "Third Angle is: " << total;
+		}
+
+		break;
+		}
+
+	}
+	break;
+
+	default: //Volume
+	{
+		display_VOLUME();;
+
+		cout << endl << "Go ahead and make a selection: ";
+		cin >> option;
+		option = toupper(option);
+
+		if (option != 'R' && option != 'C')
+		{
+			volumeOptions = VOLUME_OPTIONS(option);
+		}
+
+		switch (volumeOptions)
+		{
+
+			case 'R': //Volume of a Rectangle
+			{
+				do
+				{
+					//Get the length of the rectangle.
+					cout << endl << "What is the length of the rectangle?: ";
+					cin >> num;
+
+				} while (num <= 0);
+
+				do
+				{
+					//Get the width of the rectangle.
+					cout << endl << "What is the width of the rectangle?: ";
+					cin >> num2;
+
+				} while (num2 <= 0);
+
+				do
+				{
+					//Get the height of the rectangle.
+					cout << endl << "What is the height of the rectangle?: ";
+					cin >> num3;
+
+				} while (num3 <= 0);
+
+				total = volume_RECTANGLE(num, num2, num3); //Calculates volume of rectangle.
+
+				//Output results.
+				cout << endl << "The length of the rectangle: " << num;
+				cout << endl << "The width of the rectangle: " << num2;
+				cout << endl << "The height of the rectangle: " << num3;
+				cout << endl << "The volume of the rectangle is: " << total;
+
+				break;
+			}
+		break;
+
+			default: //Volume of a Cube
+			{
+				do
+				{
+					//Get the length of the cube.
+					cout << endl << "What is the length of the side of the cube?: ";
+					cin >> num;
+				} while (num <= 0);
+
+				totalNumber = volume_CUBE(num);//Calculates the volume of a cube.
+
+				//Output results
+				cout << endl << "The length of one side of the cube: " << num;
+				cout << endl << "The volume of the cube is: " << totalNumber;
+			}
+			break;
+		}
+	}
+	break;
+
+	}
+	
+	
+
+	cout << endl << endl;
+	return 0;
+}
+
+double area_RECTANGLE(double l, double w) //Calculation for an area of a rectangle.
+{
+	double area = 0;
+
+	area = l * w; //Area is equal to length * width;
+
+	return area; //Returns the area of a rectangle.
+}
+
+double area_TRIANGLE(double b, double h)//Calculation for an area of a triangle.
+{
+	double area = 0;
+
+	area = .5 * b * h; //Area is equal to half the base times height;
+
+	return area; //Returns the area of a triangle.
+}
+
+double area_SQUARE(double s)//Calculation for an area of a square.
+{
+	double area = 0; 
+
+	area = pow(s, 2); //Area is equal to the side squared;
+
+	return area; //Returns the area of a square.
+
+}
+
+int volume_RECTANGLE(int l, int w, int h)//Calculation for the volume of a rectangle.
+{
+	int volume = 0;
+
+	volume = l * w * h; //Volume is length * width * height.
+
+	return volume; //Returns the volume of a rectangle.
+}
+
+int volume_CUBE(int s) //Calculation for the volume of a cube.
+{
+	int volume = 0;
+
+	volume = pow(s, 3); //Volume of a cube is the side cubed.
+
+	return volume; //Returns the volume of a cube.
+}
+double circum_CIRCLE(double r) //Calculation for the circumference of a circle.
+{
+	double circumference = 0;
+
+	circumference = 2 * 3.14 * r; //Circumference Formula
+
+	return circumference; //Returns circumference.
+
+}
+
+double area_CIRCLE(double r) //Calculation for the area of a circle.
+{
+	double area = 0;
+
+	area = pow(r, 2) * 3.14; //Area of Circle Forumla.
+
+	return area; //Returns area of circle.
+}
+
+int sumofAngles(int s)//Calculates the measure of each angle of a shape that is three sides or greater.
+{
+	int sum = 0;
+
+	sum = (s - 2) * 180; //Sum of angles formula.
+
+	return sum;//Returns the measured angle.
+}
+
+int find_THIRD_ANGLE(int a, int b) //Finds the missing angle measure of a triangle.
+{
+	int c = 0;
+
+	c = 180 - (a + b); //Calculates the third angle.
+
+	return c; //Returns the third angle.
+}
+
+double hypotenuse(double a, double b) //Pythagorean Theorum
+{
+	double c = 0;
+
+	c = pow(a, 2) + pow(b, 2); //Formula
+
+	c = sqrt(c); 
+
+	return c; //Returns the third side.
+}
+
+char MENU_OPTIONS(char selection) //Menu Options
+{
+	
+	do
+	{
+
+		cout << endl << endl << "Go ahead and make your selection: ";
+
+		cin >> selection;
+		selection = toupper(selection);
+
+	} while (selection != 'A' && selection != 'C' && selection != 'P' && selection != 'T' && selection != 'V');
+
+	return selection; //Returns the choice of geometric formula.
+} 
+
+char AREA_OPTIONS(char choice) //Area Options
+{
+
+	do
+	{
+	
+		cout << endl << "\n\nGo ahead a make a selection: ";
+
+		cin >> choice;
+		choice = toupper(choice);
+
+
+		
+	} while (choice != 'T' && choice != 'S' && choice != 'R' && choice != 'C');
+	
+
+	return choice; //Returns Area Selection
+}
+
+char TRIANGLE_OPTIONS(char choice) //Triangle Formula Options
+{
+
+	do
+	{
+
+		cout << endl << endl << "Go ahead and make a selection: ";
+		cin >> choice;
+		choice = toupper(choice);
+
+	} while (choice != 'P' && choice != 'M');
+
+
+	return choice; //return triangle options
+}
+
+char VOLUME_OPTIONS(char choice) //Volume Formula Options
+{
+	do
+	{
+
+		cout << endl << "Go ahead and make a selection: ";
+
+		cin >> choice;
+		choice = toupper(choice);
+
+	} while (choice != 'R' && choice != 'C');
+
+
+	return choice; //Returns volume selection.
+}
+
+void copyright()
+{
+	cout << endl << "Created by Mario D. Mondelice Copyright @(November 2016)";
+	cout << endl << "--------This is a Geometric Calculor---------";
+	cout << endl;
+	cout << endl << "*******************************************************";
+
+	return;
+}
+void display_MENUOPTIONS()
+{
+	//Displays the Options for the User.
+
+	cout << endl << "Type A for finding Area. ";
+	cout << endl << "Type C for finding a Circumference. ";
+	cout << endl << "Type P for finding measures of a polygon. ";
+	cout << endl << "Type T for Triangle. ";
+	cout << endl << "Type V for Volume. ";
+
+	return;
+}
+
+void display_AREAOPTIONS()
+{
+	//Options for Area
+	cout << endl << "Type T for Area of TRIANGLE. ";
+	cout << endl << "Type S for Area of SQUARE. ";
+	cout << endl << "Type R for Area of RECTANGLE. ";
+	cout << endl << "Type C for Area of CIRCLE: ";
+	cout << endl << "*********************************";
+
+	return;
+
+}
+
+void display_TRIANGLEOPS()
+{
+	//Formula Options
+	cout << endl << "Type P for Pythagorean Theorum";
+	cout << endl << "Type M for the Missing Side of an Angle";
+	cout << endl << "*********************************************";
+	
+
+	return;
+}
+
+void display_VOLUME()
+{
+	//Volume Options
+	cout << endl << "Type R for Volume of RECTANGLE. ";
+	cout << endl << "Type C for Volume of CUBE. ";
+	cout << endl << "*************************************";
+
+	return;
+}
